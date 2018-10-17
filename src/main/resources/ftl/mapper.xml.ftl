@@ -10,11 +10,11 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        ${pkField.fieldName}<#list fieldList as field>,${field.propertyName}</#list>
+        ${pkField.fieldName}<#list fieldList as field>,${field.fieldName}</#list>
     </sql>
 
     <sql id="Alias_Column_List">
-        t.${pkField.fieldName}<#list fieldList as field>,t.${field.propertyName}</#list>
+        t.${pkField.fieldName}<#list fieldList as field>,t.${field.fieldName}</#list>
     </sql>
 
     <sql id="Base_Condition">
@@ -106,7 +106,7 @@
         update ${tableName}
         set
         <#list fieldList as field>
-            ${field.fieldName} = ${r"#"}{${field.propertyName},jdbcType=${field.jdbcType}},
+            ${field.fieldName} = ${r"#"}{${field.propertyName},jdbcType=${field.jdbcType}}<#if field_has_next>,</#if>
         </#list>
         where ${pkField.fieldName} = ${r"#"}{${pkField.propertyName},jdbcType=${pkField.jdbcType}}
     </update>

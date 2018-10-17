@@ -16,9 +16,9 @@ public class AutoBuilder {
     /**
      * 根据表自行定义
      */
-    public static final String[] TABLE_NAME = new String[]{"t_nmi_order_changed_log"};
+    public static final String[] TABLE_NAME = new String[]{"t_nmi_order"};
 
-    public static final String[] ENTITY_NAME = new String[]{"NmiOrderChangedLog"};
+    public static final String[] ENTITY_NAME = new String[]{"InsureOrder"};
 
     /**
      * true:物理删除 false:逻辑删除
