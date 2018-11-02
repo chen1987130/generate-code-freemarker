@@ -135,6 +135,39 @@
         <include refid="Base_Condition" />
     </select>
 
+    <!-- 批量插入(所有字段) -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into ${tableName} (
+            <include refid="Base_Column_List" />
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+        (
+            ${r"#"}{item.${pkField.propertyName}}
+        <#list fieldList as field>
+            ${r"<choose><when"} test="item.${field.propertyName} !=null">,${r"#"}{item.${field.propertyName}}</when><otherwise>,default</otherwise></choose>
+        </#list>
+        )
+        </foreach>
+    </insert>
+
+    <!-- 批量插入或更新(所有字段) -->
+    <update id="batchUpdate" parameterType="java.util.List">
+        insert into ${tableName}(
+            <include refid="Base_Column_List" />
+        )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+        (
+            ${r"#"}{item.${pkField.propertyName}}
+        <#list fieldList as field>
+            ${r"<choose><when"} test="item.${field.propertyName} !=null">,${r"#"}{item.${field.propertyName}}</when><otherwise>,default</otherwise></choose>
+        </#list>
+        )
+        </foreach>
+        on duplicate key update <#list fieldList as field>${field.fieldName} = values(${field.fieldName})<#if field_has_next>,</#if> </#list>
+    </update>
+
     <!-- 批量删除 -->
     <delete id="batchDelete" parameterType="java.util.List">
         delete from ${tableName} where id in
